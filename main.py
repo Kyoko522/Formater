@@ -6,6 +6,7 @@ def open_file():
     data = open(n)
     for  line in data:
         lines.append(line.strip().lower()[9::])
+    data.close()
     lines = lines[1::]
     return lines
 
