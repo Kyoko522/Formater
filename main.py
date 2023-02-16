@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys
 
 def open_file():
@@ -79,13 +80,10 @@ def format():
     return fl
 
 
-
-
-
-
 def toprint():
     for i in format():
-        print(str(i) + "\t" + str (len(i.strip())))
+        print(str(i) + "\t" + str (i.strip()))
+
 
 if __name__ == "__main__":
     open_file ()
