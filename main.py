@@ -111,9 +111,9 @@ def format():
     return fl
 
 
-def toprint():
+def toprint(list):
     print ("\n")
-    for i in format():
+    for i in list:
         print(str(i))
     print("\n")
 
@@ -134,7 +134,10 @@ def anotation():
     pass
 
 def addresses():
-    pass
+    print("\n")
+    for i in range(len(format())):
+        print(str(getAddress()[i]) + "\t" + str(format()[i]))
+    print("\n")
 
 
 if __name__ == "__main__":
