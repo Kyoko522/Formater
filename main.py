@@ -159,5 +159,5 @@ if __name__ == "__main__":
     elif option == "-a":
         addresses()
     else:
-        toprint()
+        toprint(format())
 
