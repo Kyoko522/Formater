@@ -50,7 +50,7 @@ def getAddress():
     data.close()
     lines = lines[1::]
     for i in lines:
-       declist.append(toDecimal(i))
+       declist.append(hex_to_dec(i))
     return declist
 
 
@@ -96,8 +96,11 @@ def toBinary():
     return binarylist
 
 
-def toDecimal(hex):
+def hex_to_dec(hex):
     return int(hex, 16)
+
+def bin_to_dec(bin):
+    return int(bin, 2)
 
 
 
@@ -129,7 +132,6 @@ def format():
 
 
 def toprint(list):
-    print ("Hello world! ")
     print ("\n")
     for i in list:
         print(str(i))
@@ -140,6 +142,16 @@ def copy_to_clip():
     for i in format():
         cp += i + "\n"
     subprocess.run("pbcopy", text=True, input=cp)
+
+def to_first_comp(comp2):
+    comp2 = comp2-1
+    s_and_m =""
+    for i in comp2:
+        if i == 1:
+            s_and_m += "1"
+        else:
+            s_and_m += "0"
+    return s_and_m
 
 def to_write():
     cp = ""
@@ -155,6 +167,16 @@ def anotation(list):
         notes = ""
         if i[0:2] == "00" and i[7:10] == "010":
             notes = "-> Branch Format, "
+            if i[3:7] == "0001":
+                notes += "Branch if equal, " #+ "Branch to " + bin_to_dec(i[10::])
+            elif i[3:7] == "0101":
+                notes += "Branch on carry"
+            elif i[3:7] == "0110":
+                notes += "Branch on negative"
+            elif i[3:7] == "0111":
+                notes += "Branch on overflow"
+            elif i[3:7] == "1000":
+                notes += "Branch always"
 
         elif i[0:2] == "00" and i[7:10] == "100":
             notes = "-> SETHI Format, "
@@ -164,10 +186,27 @@ def anotation(list):
 
         elif i[0:2] == "10":
             notes = "-> Arithmetic Format, "
+            if i[7:13] == "010000":
+                notes += "Add "
+            elif i[7:13] == "010001":
+                notes += "Bitwise logical AND "
+            elif i[7:13] == "010010":
+                notes += "Bitwise logical OR "
+            elif i[7:13] == "010110":
+                notes += "Bitwise logical NOR "
+            elif i[7:13] == "100110":
+                notes += "Shift right (logical) "
+            elif i[7:13] == "111000":
+                notes += "Jump and link (return from subroutine call) "
 
         elif i[0:2] == "11":
             notes= "-> Memory Format, "
-
+            if i[7:13] == "00000" and i[18] == "0":
+                print("1")
+                notes += "Load register " + str(bin_to_dec(i[2:7])) + " with what's in register " + str(bin_to_dec(i[27]))
+            elif i[7:13] == "00000" and i[18] == "1":
+                print ("2")
+                notes += "Load register " + str(bin_to_dec(i[2:7])) + " from memory " + str(bin_to_dec(i[19::]))
         else:
             notes= "-> Data"
         anotationed_list.append(notes)
@@ -176,14 +215,10 @@ def anotation(list):
         result = list[i] +"\t\t"+anotationed_list[i]
         resultlist.append(result)
 
-
     return resultlist
 
 def upadte_list():
     pass
-
-
-
 
 def addresses():
     addresList = []
