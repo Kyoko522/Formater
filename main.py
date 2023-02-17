@@ -114,7 +114,7 @@ if __name__ == "__main__":
     print ("-p\tprint")
     print ("-d\tdownload")
     print ("-c\tcopy to clipboard")
-    print ("-n\tnotes (comments)")
+    print ("-n\tnotes (comments) ")
     print ("-a\tshow addresses")
     option = (input("Pick your option: "))
     if option == "-p":
