@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
+import subprocess
 import sys
+
 
 def open_file():
     lines = []
@@ -10,6 +12,7 @@ def open_file():
     data.close()
     lines = lines[1::]
     return lines
+
 
 def toBinary():
     binary = ""
@@ -82,11 +85,23 @@ def format():
 
 def toprint():
     for i in format():
-        print(str(i) + "\t" + str (i.strip()))
+        print(str(i))
 
+def copy_to_clip():
+    cp = ""
+    for i in format():
+        cp += i + "\n"
+    subprocess.run("pbcopy", text=True, input=cp)
 
 if __name__ == "__main__":
     open_file ()
     toBinary()
     format()
-    toprint()
+    print ("-p\tprint")
+    print ("-w\twrite")
+    print ("-c\tcopy to clipboard")
+    option = (input("Pick your option: "))
+    if option == "-p":
+        toprint()
+    elif option == "-c":
+        copy_to_clip()
