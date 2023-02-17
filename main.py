@@ -103,6 +103,7 @@ def format():
 
 
 def toprint(list):
+    print ("Hello world! ")
     print ("\n")
     for i in list:
         print(str(i))
@@ -142,13 +143,14 @@ if __name__ == "__main__":
     print ("  \tnothing will just print in terminal")
     option = (input("Pick your option: "))
     for i in range (len(option)-1):
+        print ("done")
         if option[i:i+2] == "-d":
             to_write()
-        elif option == "-c":
+        if option[i:i+2] == "-c":
             copy_to_clip()
-        elif option == "-n":
+        if option[i:i+2] == "-n":
             anotation ()
-        elif option == "-a":
+        if option[i:i+2] == "-a":
             toprint(addresses())
         else:
             toprint(format())
