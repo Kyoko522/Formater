@@ -3,6 +3,32 @@ import subprocess
 import sys
 import ast
 
+def main():
+    open_file()
+    toBinary()
+    format()
+    print("-d\tdownload")
+    print("-c\tcopy to clipboard")
+    print("-n\tnotes (comments) ")
+    print("-a\tshow addresses")
+    print("  \tnothing will just print in terminal")
+    option = (input("Pick your option: "))
+    count = 0
+    for i in range(len(option) - 1):
+        if option[i:i + 2] == "-d":
+            to_write()
+            count = 1
+        if option[i:i + 2] == "-c":
+            copy_to_clip()
+            count = 1
+        if option[i:i + 2] == "-n":
+            toprint(anotation(format()))
+            count = 1
+        if option[i:i + 2] == "-a":
+            count = 1
+            toprint(addresses())
+    if count == 0:
+        toprint(format())
 # Open the file and safe the machine code that has already been converted inot hex
 def open_file():
     lines = []
@@ -122,42 +148,51 @@ def to_write():
         cp += i + "\n"
     f.write(cp)
 
-def anotation():
+def anotation(list):
+    anotationed_list = []
+    resultlist = []
     for i in (toBinary()):
-        pass
+        notes = ""
+        if i[0:2] == "00" and i[7:10] == "010":
+            notes = "-> Branch Format, "
+
+        elif i[0:2] == "00" and i[7:10] == "100":
+            notes = "-> SETHI Format, "
+
+        elif i[0:2] == "01":
+            notes = "-> CALL format, "
+
+        elif i[0:2] == "10":
+            notes = "-> Arithmetic Format, "
+
+        elif i[0:2] == "11":
+            notes= "-> Memory Format, "
+
+        else:
+            notes= "-> Data"
+        anotationed_list.append(notes)
+
+    for i in range (len(format())):
+        result = list[i] +"\t\t"+anotationed_list[i]
+        resultlist.append(result)
+
+
+    return resultlist
+
+def upadte_list():
+    pass
+
+
+
 
 def addresses():
     addresList = []
     for i in range(len(format())):
-        addresList.append(str(getAddress()[i]) + "\t" + str(format()[i]))
+        addresList.append(str(getAddress()[i]) + ":\t" + str(format()[i]))
     return addresList
 
 if __name__ == "__main__":
-    open_file ()
-    toBinary()
-    format()
-    print ("-d\tdownload")
-    print ("-c\tcopy to clipboard")
-    print ("-n\tnotes (comments) ")
-    print ("-a\tshow addresses")
-    print ("  \tnothing will just print in terminal")
-    option = (input("Pick your option: "))
-    count = 0
-    for i in range (len(option)-1):
-        if option[i:i+2] == "-d":
-            to_write()
-            count = 1
-        if option[i:i+2] == "-c":
-            copy_to_clip()
-            count = 1
-        if option[i:i+2] == "-n":
-            anotation ()
-            count = 1
-        if option[i:i+2] == "-a":
-            count = 1
-            toprint(addresses())
-    if count == 0:
-        toprint(format())
+    main()
 
 
 
