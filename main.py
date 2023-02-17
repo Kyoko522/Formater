@@ -122,14 +122,14 @@ def to_write():
     f.write(cp)
 
 def anotation():
-    pass
+    for i in (toBinary()):
+        pass
 
 def addresses():
-    print("\n")
+    addresList = []
     for i in range(len(format())):
-        print(str(getAddress()[i]) + "\t" + str(format()[i]))
-    print("\n")
-
+        addresList.append(str(getAddress()[i]) + "\t" + str(format()[i]))
+    return addresList
 
 if __name__ == "__main__":
     open_file ()
@@ -141,14 +141,15 @@ if __name__ == "__main__":
     print ("-a\tshow addresses")
     print ("  \tnothing will just print in terminal")
     option = (input("Pick your option: "))
-    if option == "-d":
-        to_write()
-    elif option == "-c":
-        copy_to_clip()
-    elif option == "-n":
-        anotation ()
-    elif option == "-a":
-        addresses()
-    else:
-        toprint(format())
+    for i in range (len(option)-1):
+        if option[i:i+2] == "-d":
+            to_write()
+        elif option == "-c":
+            copy_to_clip()
+        elif option == "-n":
+            anotation ()
+        elif option == "-a":
+            toprint(addresses())
+        else:
+            toprint(format())
 
