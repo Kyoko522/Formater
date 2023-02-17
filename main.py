@@ -3,13 +3,13 @@ import subprocess
 import sys
 import ast
 
-
+# Open the file and safe the machine code that has already been converted inot hex
 def open_file():
     lines = []
     n = (sys.argv[1])
     data = open(n)
     for  line in data:
-        lines.append(line.strip().lower()[9::])
+        lines.append(line.strip().lower()[9::]) #remove the address hex we only want the machine code
     data.close()
     lines = lines[1::]
     return lines
@@ -23,17 +23,8 @@ def getAddress():
         lines.append(line.strip().lower()[:8])
     data.close()
     lines = lines[1::]
-
     for i in lines:
        declist.append(toDecimal(i))
-
-    return declist
-
-
-
-    for i in lines:
-        declist.append(toDecimal(i))
-
     return declist
 
 
