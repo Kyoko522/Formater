@@ -125,5 +125,7 @@ if __name__ == "__main__":
         copy_to_clip()
     elif option == "-n":
         anotation ()
+    elif option == "-a":
+        addresses()
 
 
