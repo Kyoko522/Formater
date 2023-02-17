@@ -93,15 +93,37 @@ def copy_to_clip():
         cp += i + "\n"
     subprocess.run("pbcopy", text=True, input=cp)
 
+def to_write():
+    cp = ""
+    f = open("result.txt","w")
+    for i in format():
+        cp += i + "\n"
+    f.write(cp)
+
+def anotation():
+    pass
+
+def addresses():
+    pass
+
+
 if __name__ == "__main__":
     open_file ()
     toBinary()
     format()
     print ("-p\tprint")
-    print ("-w\twrite")
+    print ("-d\tdownload")
     print ("-c\tcopy to clipboard")
+    print ("-n\tnotes (comments)")
+    print ("-a\tshow addresses")
     option = (input("Pick your option: "))
     if option == "-p":
         toprint()
+    elif option == "-d":
+        to_write()
     elif option == "-c":
         copy_to_clip()
+    elif option == "-n":
+        anotation ()
+
+
