@@ -142,16 +142,22 @@ if __name__ == "__main__":
     print ("-a\tshow addresses")
     print ("  \tnothing will just print in terminal")
     option = (input("Pick your option: "))
+    count = 0
     for i in range (len(option)-1):
-        print ("done")
         if option[i:i+2] == "-d":
             to_write()
+            count = 1
         if option[i:i+2] == "-c":
             copy_to_clip()
+            count = 1
         if option[i:i+2] == "-n":
             anotation ()
+            count = 1
         if option[i:i+2] == "-a":
+            count = 1
             toprint(addresses())
-        else:
-            toprint(format())
+    if count == 0:
+        toprint(format())
+
+
 
