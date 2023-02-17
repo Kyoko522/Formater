@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import subprocess
 import sys
+import ast
 
 
 def open_file():
@@ -12,6 +13,28 @@ def open_file():
     data.close()
     lines = lines[1::]
     return lines
+
+def getAddress():
+    lines = []
+    declist = []
+    n = (sys.argv[1])
+    data = open(n)
+    for line in data:
+        lines.append(line.strip().lower()[:8])
+    data.close()
+    lines = lines[1::]
+
+    for i in lines:
+       declist.append(toDecimal(i))
+
+    return declist
+
+
+
+    for i in lines:
+        declist.append(toDecimal(i))
+
+    return declist
 
 
 def toBinary():
@@ -56,6 +79,11 @@ def toBinary():
     return binarylist
 
 
+def toDecimal(hex):
+    return int(hex, 16)
+
+
+
 def format():
     fl = []
 
@@ -84,8 +112,10 @@ def format():
 
 
 def toprint():
+    print ("\n")
     for i in format():
         print(str(i))
+    print("\n")
 
 def copy_to_clip():
     cp = ""
@@ -111,15 +141,13 @@ if __name__ == "__main__":
     open_file ()
     toBinary()
     format()
-    print ("-p\tprint")
     print ("-d\tdownload")
     print ("-c\tcopy to clipboard")
     print ("-n\tnotes (comments) ")
     print ("-a\tshow addresses")
+    print ("  \tnothing will just print in terminal")
     option = (input("Pick your option: "))
-    if option == "-p":
-        toprint()
-    elif option == "-d":
+    if option == "-d":
         to_write()
     elif option == "-c":
         copy_to_clip()
@@ -127,5 +155,6 @@ if __name__ == "__main__":
         anotation ()
     elif option == "-a":
         addresses()
-
+    else:
+        toprint()
 
