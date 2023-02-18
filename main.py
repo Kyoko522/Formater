@@ -164,7 +164,7 @@ def format():
 def toprint(list):
     print("\n")
     for i in list:
-        print(i)
+        print(i[:-1])
 
 
 def copy_to_clip(list):
