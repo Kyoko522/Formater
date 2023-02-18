@@ -4,6 +4,7 @@ import subprocess
 import sys
 import ast
 
+
 def main():
     open_file()
     toBinary()
@@ -30,16 +31,19 @@ def main():
     if count == 0:
         toprint(temp_open())
         os.remove("save.txt")
+
+
 # Open the file and safe the machine code that has already been converted inot hex
 def open_file():
     lines = []
     n = (sys.argv[1])
     data = open(n)
-    for  line in data:
-        lines.append(line.strip().lower()[9::]) #remove the address hex we only want the machine code
+    for line in data:
+        lines.append(line.strip().lower()[9::])  # remove the address hex we only want the machine code
     data.close()
     lines = lines[1::]
     return lines
+
 
 def getAddress(list):
     lines = []
@@ -53,19 +57,26 @@ def getAddress(list):
     data.close()
     lines = lines[1::]
     for i in lines:
-       declist.append(hex_to_dec(i))
+        declist.append(hex_to_dec(i))
 
-    for i in range (len(list)):
-        string = (str(declist[i])+ "\t" + str(list[i]))
+    for i in range(len(list)):
+        string = (str(declist[i]) + "\t" + str(list[i]))
         fl.append(string[:-1])
     return fl
+
+
+def addresses():
+    addresList = []
+    for i in range(len(format())):
+        addresList.append(str(getAddress()[i]) + ":\t" + str(format()[i]))
+    return addresList
 
 
 def toBinary():
     binary = ""
     binarylist = []
     for hex in open_file():
-        for j in range (len(hex)):
+        for j in range(len(hex)):
             if hex[j] == "0":
                 binary = binary + "0000"
             elif hex[j] == "1":
@@ -102,19 +113,23 @@ def toBinary():
         binary = ""
     return binarylist
 
+
 def hex_to_dec(hex):
     return int(hex, 16)
 
+
 def bin_to_dec(bin):
     return int(bin, 2)
+
 
 def temp_save(list):
     cp = ""
     file = open("save.txt", "w")
     for i in list:
-        cp += str(i)+"\n"
+        cp += str(i) + "\n"
     file.write(cp)
     file.close()
+
 
 def temp_open():
     file = open("save.txt")
@@ -124,36 +139,30 @@ def temp_open():
     file.close()
     return lines
 
+
 def format():
     fl = []
 
     for i in toBinary():
-        formated = ""
         if i[0:2] == "00" and i[7:10] == "100":
-            formated = i[0:2] + " "+ i[2:7] + " " + i[7: 10] + " " + i[10::]
-
+            formated = i[0:2] + " " + i[2:7] + " " + i[7: 10] + " " + i[10::]
         elif i[0:2] == "00" and i[7:10] == "010":
             formated = i[0:2] + " " + i[2] + " " + i[3:7] + " " + i[7:10] + " " + i[10::]
-
         elif i[0:2] == "01":
             formated = i[0:2] + " " + i[2::]
-
         elif i[0] == "1" and i[18] == "0":
-            formated = i[0:2] + " " + i[2:7] + " " + i[7:13] + " " + i[13 : 18] + " " + i[18] + " " + i[19:27] + " " + i[27::]
-
+            formated = i[0:2] + " " + i[2:7] + " " + i[7:13] + " " + i[13: 18] + " " + i[18] + " " + i[19:27] + " " + i[
+                                                                                                                      27::]
         elif i[0] == "1" and i[18] == "1":
-            formated = i[0:2] + " " + i[2:7] + " " + i[7:13] + " " + i[13 : 18] + " " + i[18] + " " + i[19::]
-
+            formated = i[0:2] + " " + i[2:7] + " " + i[7:13] + " " + i[13: 18] + " " + i[18] + " " + i[19::]
         else:
             formated = i
-
         fl.append(formated)
-
     return fl
 
 
 def toprint(list):
-    print ("\n")
+    print("\n")
     for i in list:
         print(i)
 
@@ -164,9 +173,10 @@ def copy_to_clip(list):
         cp += i + "\n"
     subprocess.run("pbcopy", text=True, input=cp)
 
+
 def to_first_comp(comp2):
-    comp2 = comp2-1
-    s_and_m =""
+    comp2 = comp2 - 1
+    s_and_m = ""
     for i in comp2:
         if i == 1:
             s_and_m += "1"
@@ -174,13 +184,15 @@ def to_first_comp(comp2):
             s_and_m += "0"
     return s_and_m
 
+
 def to_write(list):
     cp = ""
-    f = open("result.txt","w")
+    f = open("result.txt", "w")
     for i in list:
         cp += i + "\n"
     f.write(cp)
     f.close()
+
 
 def anotation(list):
     anotationed_list = []
@@ -189,7 +201,7 @@ def anotation(list):
         if i[0:2] == "00" and i[7:10] == "010":
             notes = "-> Branch Format, "
             if i[3:7] == "0001":
-                notes += "Branch if equal, " #+ "Branch to " + bin_to_dec(i[10::])
+                notes += "Branch if equal, "  # + "Branch to " + bin_to_dec(i[10::])
             elif i[3:7] == "0101":
                 notes += "Branch on carry"
             elif i[3:7] == "0110":
@@ -222,32 +234,25 @@ def anotation(list):
             elif i[7:13] == "111000":
                 notes += "Jump and link (return from subroutine call) "
 
-        elif i[0:2] == "11": #and (i[7:13] != "111111" and i[7:13] != "000000"):
-            notes= "-> Memory Format, "
+        elif i[0:2] == "11":  # and (i[7:13] != "111111" and i[7:13] != "000000"):
+            notes = "-> Memory Format, "
             if i[7:13] == "000000":
                 if i[18] == "0":
-                    notes += "Load register " + str(bin_to_dec(i[2:7])) + " with what's in register " + str(bin_to_dec(i[27]))
+                    notes += "Load register " + str(bin_to_dec(i[2:7])) + " with what's in register " + str(
+                        bin_to_dec(i[27]))
                 elif i[18] == "1":
                     notes += "Load register " + str(bin_to_dec(i[2:7])) + " from memory " + str(bin_to_dec(i[19::]))
         else:
-            notes= "-> Data: " + str(bin_to_dec(i))
+            notes = "-> Data: " + str(bin_to_dec(i))
 
         anotationed_list.append(notes)
 
-    for i in range (len(format())):
+    for i in range(len(format())):
         string = list[i]
-        result = string[:-1] +"\t\t"+anotationed_list[i]
+        result = string[:-1] + "\t\t" + anotationed_list[i]
         resultlist.append(result)
     return resultlist
 
-def addresses():
-    addresList = []
-    for i in range(len(format())):
-        addresList.append(str(getAddress()[i]) + ":\t" + str(format()[i]))
-    return addresList
 
 if __name__ == "__main__":
     main()
-
-
-
