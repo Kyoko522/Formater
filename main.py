@@ -56,7 +56,8 @@ def getAddress(list):
        declist.append(hex_to_dec(i))
 
     for i in range (len(list)):
-        fl.append(str(declist[i])+ "\t" + str(list[i]))
+        string = (str(declist[i])+ "\t" + str(list[i]))
+        fl.append(string[:-1])
     return fl
 
 
@@ -100,7 +101,6 @@ def toBinary():
         binarylist.append(binary)
         binary = ""
     return binarylist
-
 
 def hex_to_dec(hex):
     return int(hex, 16)
@@ -146,6 +146,7 @@ def format():
 
         else:
             formated = i
+
         fl.append(formated)
 
     return fl
@@ -185,7 +186,6 @@ def anotation(list):
     anotationed_list = []
     resultlist = []
     for i in (toBinary()):
-        notes = ""
         if i[0:2] == "00" and i[7:10] == "010":
             notes = "-> Branch Format, "
             if i[3:7] == "0001":
@@ -235,9 +235,9 @@ def anotation(list):
         anotationed_list.append(notes)
 
     for i in range (len(format())):
-        result = list[i] +"\t\t"+anotationed_list[i]
+        string = list[i]
+        result = string[:-1] +"\t\t"+anotationed_list[i]
         resultlist.append(result)
-
     return resultlist
 
 def addresses():
