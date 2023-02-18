@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 import subprocess
 import sys
 import ast
@@ -14,8 +15,8 @@ def main():
     print("  \tnothing will just print in terminal")
     option = (input("Pick your option: "))
     count = 0
+    temp_save(format())
     for i in range(len(option) - 1):
-        temp_save(format())
         if option[i:i + 2] == "-n":
             temp_save(anotation(temp_open()))
         if option[i:i + 2] == "-a":
@@ -28,6 +29,7 @@ def main():
             copy_to_clip(temp_open())
     if count == 0:
         toprint(temp_open())
+        os.remove("save.txt")
 # Open the file and safe the machine code that has already been converted inot hex
 def open_file():
     lines = []
