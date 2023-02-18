@@ -15,20 +15,19 @@ def main():
     option = (input("Pick your option: "))
     count = 0
     for i in range(len(option) - 1):
-        if option[i:i + 2] == "-d":
-            to_write()
-            count = 1
-        if option[i:i + 2] == "-c":
-            copy_to_clip()
-            count = 1
+        temp_save(format())
         if option[i:i + 2] == "-n":
-            toprint(anotation(format()))
-            count = 1
+            temp_save(anotation(temp_open()))
         if option[i:i + 2] == "-a":
+            temp_save(getAddress(temp_open()))
+        if option[i:i + 2] == "-d":
             count = 1
-            toprint(addresses())
+            to_write(temp_open())
+        if option[i:i + 2] == "-c":
+            count = 1
+            copy_to_clip(temp_open())
     if count == 0:
-        toprint(format())
+        toprint(temp_open())
 # Open the file and safe the machine code that has already been converted inot hex
 def open_file():
     lines = []
@@ -40,9 +39,11 @@ def open_file():
     lines = lines[1::]
     return lines
 
-def getAddress():
+def getAddress(list):
     lines = []
     declist = []
+    fl = []
+
     n = (sys.argv[1])
     data = open(n)
     for line in data:
@@ -51,7 +52,10 @@ def getAddress():
     lines = lines[1::]
     for i in lines:
        declist.append(hex_to_dec(i))
-    return declist
+
+    for i in range (len(list)):
+        fl.append(str(declist[i])+ "\t" + str(list[i]))
+    return fl
 
 
 def toBinary():
@@ -102,7 +106,21 @@ def hex_to_dec(hex):
 def bin_to_dec(bin):
     return int(bin, 2)
 
+def temp_save(list):
+    cp = ""
+    file = open("save.txt", "w")
+    for i in list:
+        cp += str(i)+"\n"
+    file.write(cp)
+    file.close()
 
+def temp_open():
+    file = open("save.txt")
+    lines = []
+    for line in file:
+        lines.append(line)  # remove the address hex we only want the machine code
+    file.close()
+    return lines
 
 def format():
     fl = []
@@ -134,12 +152,12 @@ def format():
 def toprint(list):
     print ("\n")
     for i in list:
-        print(str(i))
-    print("\n")
+        print(i)
 
-def copy_to_clip():
+
+def copy_to_clip(list):
     cp = ""
-    for i in format():
+    for i in list:
         cp += i + "\n"
     subprocess.run("pbcopy", text=True, input=cp)
 
@@ -153,12 +171,13 @@ def to_first_comp(comp2):
             s_and_m += "0"
     return s_and_m
 
-def to_write():
+def to_write(list):
     cp = ""
     f = open("result.txt","w")
-    for i in format():
+    for i in list:
         cp += i + "\n"
     f.write(cp)
+    f.close()
 
 def anotation(list):
     anotationed_list = []
@@ -218,9 +237,6 @@ def anotation(list):
         resultlist.append(result)
 
     return resultlist
-
-def upadte_list():
-    pass
 
 def addresses():
     addresList = []
