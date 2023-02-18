@@ -163,7 +163,6 @@ def to_write():
 def anotation(list):
     anotationed_list = []
     resultlist = []
-    print(toBinary())
     for i in (toBinary()):
         notes = ""
         if i[0:2] == "00" and i[7:10] == "010":
@@ -202,14 +201,12 @@ def anotation(list):
             elif i[7:13] == "111000":
                 notes += "Jump and link (return from subroutine call) "
 
-        elif i[0:2] == "11" and (i[7:13] != "111111" and i[7:13] != "000000"):
+        elif i[0:2] == "11": #and (i[7:13] != "111111" and i[7:13] != "000000"):
             notes= "-> Memory Format, "
-            if i[7:13] == "00000":
+            if i[7:13] == "000000":
                 if i[18] == "0":
-                    print("1")
                     notes += "Load register " + str(bin_to_dec(i[2:7])) + " with what's in register " + str(bin_to_dec(i[27]))
                 elif i[18] == "1":
-                    print ("2")
                     notes += "Load register " + str(bin_to_dec(i[2:7])) + " from memory " + str(bin_to_dec(i[19::]))
         else:
             notes= "-> Data: " + str(bin_to_dec(i))
