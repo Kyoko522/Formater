@@ -220,9 +220,15 @@ def anotation(list):
         elif i[0:2] == "10":
             notes = "-> Arithmetic Format, "
             if i[7:13] == "010000":
-                notes += "Add "
+                if i[18] == "0":
+                    notes += "Addition: Add register " + str(bin_to_dec(i[13:18])) + " with register " + str(bin_to_dec(i[27::])) + " and store the result in register " + str(bin_to_dec(i[2:7]))
+                elif i[18] == "1":
+                    notes += "Addition: Add register " + str(bin_to_dec(i[13:18])) + " with " + str(bin_to_dec(i[19::])) + " and store the results in register " + str(bin_to_dec(i[2:7])) + str(i[2:7])
             elif i[7:13] == "010100":
-                notes += "Subtraction "
+                if i[18] == "0":
+                    notes += "Subtraction: Subtract register " + str(bin_to_dec(i[27::])) + " from register " + str(bin_to_dec(i[13:18])) + " and store the result in register " + str(bin_to_dec(i[2:7]))
+                elif i[18] == "1":
+                    notes += "Subtraction: Subtract register " + str(bin_to_dec(i[19::])) + " from " + str(bin_to_dec(i[13:18])) + " and store the result in register " + str(bin_to_dec(i[2:7]))
             elif i[7:13] == "010001":
                 notes += "Bitwise logical AND "
             elif i[7:13] == "010010":
@@ -234,16 +240,20 @@ def anotation(list):
             elif i[7:13] == "111000":
                 notes += "Jump and link (return from subroutine call) "
 
-        elif i[0:2] == "11":  # and (i[7:13] != "111111" and i[7:13] != "000000"):
+        elif i[0:2] == "11" and i[7:13] != "111111":  # and (i[7:13] != "111111" and i[7:13] != "000000"):
             notes = "-> Memory Format, "
             if i[7:13] == "000000":
                 if i[18] == "0":
-                    notes += "Load register " + str(bin_to_dec(i[2:7])) + " with what's in register " + str(
-                        bin_to_dec(i[27]))
+                    notes += "Load register " + str(bin_to_dec(i[2:7])) + " with what's in register " + str(bin_to_dec(i[27::]))
                 elif i[18] == "1":
-                    notes += "Load register " + str(bin_to_dec(i[2:7])) + " from memory " + str(bin_to_dec(i[19::]))
+                    notes += "Load register " + str(bin_to_dec(i[2:7])) + " with what's stored in memory address " + str(bin_to_dec(i[19::]))
+            elif i[7:13] == "000100":
+                if i[18] == "0":
+                    notes += "Store register " + str(bin_to_dec(i[2:7])) + " into register " + str(bin_to_dec(i[27::]))
+                elif i[18] == "1":
+                    notes += "Store register " + str(bin_to_dec(i[2:7])) + " into memory address " + str(bin_to_dec(i[19::]))
         else:
-            notes = "-> Data: " + str(bin_to_dec(i))
+            notes = "-> Unknown instruction"
 
         anotationed_list.append(notes)
 
