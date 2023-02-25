@@ -6,14 +6,19 @@ import ast
 
 
 def main():
+    # open that file the bin folder that the user has inputed
     open_file()
+    # convert the hex code into binary
     toBinary()
+    # formate the code depending on what that line does
     format()
+    # print the options that user has
     print("-d\tdownload")
     print("-c\tcopy to clipboard")
     print("-n\tnotes (comments) ")
     print("-a\tshow addresses")
     print("  \tnothing will just print in terminal")
+    # ask the user what they want to do
     option = (input("Pick your option: "))
     count = 0
     temp_save(format())
